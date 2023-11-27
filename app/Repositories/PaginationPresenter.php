@@ -32,6 +32,9 @@ class PaginationPresenter implements PaginationInterface {
     public function isLastPage() : bool {
         return $this->paginator->currentPage() === $this->paginator->lastPage(); 
     }
+    public function getLastPage() : int {
+        return $this->paginator->lastPage();
+    }
     public function currentPage() : int {
         return $this->paginator->currentPage() ?? 1;
     }

@@ -12,6 +12,7 @@ interface PaginationInterface {
     public function total(): int;
     public function isFirstPage() : bool;
     public function isLastPage() : bool;
+    public function getLastPage() : int;
     public function currentPage() : int;
     public function getNumberNextPage() : int;
     public function getNumberPreviousPage() : int;
