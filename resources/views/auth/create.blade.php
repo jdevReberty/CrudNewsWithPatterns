@@ -20,7 +20,7 @@
                 </div>              
                 @endif
                 {{ $errors->has('errors') ? $errors['errors'] : '' }}
-                <form class="form {{ Auth::check() ? "col-md-6 mx-auto" : "" }}" method="post" action="{{ route('user.admin.store') }}">  
+                <form class="form {{ Auth::check() ? "col-md-6 mx-auto" : "" }}" method="post" action="{{ Auth::check() ? route('user.admin.store') : route('user.store') }}">  
                     @csrf
                     <input type="hidden" name="device_name" value="create_user">
                     <div class="card-body">
