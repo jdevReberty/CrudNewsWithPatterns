@@ -19,12 +19,10 @@ class AuthController extends Controller
      */
     public function authenticate(Request $request)
     {
-        dd("entrou");
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-        dd($credentials);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
@@ -38,7 +36,7 @@ class AuthController extends Controller
 
     public function logout() {
         Auth::logout();
-        return redirect()->route('login');
+        return redirect()->route('login.index');
     }
 
     public function home() {
