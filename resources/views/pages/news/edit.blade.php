@@ -41,7 +41,6 @@
                     </div>
                 </form>
             </div>
-            {{(isset($errors) && !$errors->isEmpty()) ? $errors : ''}}
         </div>
     </div>
 </div>
