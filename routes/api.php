@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\Api\Auth\AuthController;
-use App\Http\Controllers\Api\Auth\UserController;
-use App\Http\Controllers\NewsController;
+use App\Http\Controllers\Api\{
+    Auth\AuthController, Auth\UserController, 
+    NewsController
+};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,14 +17,13 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::middleware(['out'])->group(function () {
+    Route::get('/login', [AuthController::class, 'index']);
+    Route::post('/auth', [AuthController::class, 'auth']);
 
-
-Route::get('/login', [AuthController::class, 'index']);
-Route::post('/auth', [AuthController::class, 'auth']);
-
-Route::get('/new_user', [UserController::class, 'create']);
-Route::post('/new_user/store', [UserController::class, 'store']);
-
+    Route::get('/new_user', [UserController::class, 'create']);
+    Route::post('/new_user/store', [UserController::class, 'store']);
+});
 
 //rotas autenticadas
 Route::middleware('auth:sanctum')->group(function() {
@@ -31,7 +31,7 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::get('home', [NewsController::class, 'index']);
         Route::get('news/create', [NewsController::class, 'create']);
         Route::post('news/store', [NewsController::class, 'store']);
-        Route::get('news/view', [NewsController::class, 'view']);
+        Route::get('news/show', [NewsController::class, 'show']);
         Route::post('news/update', [NewsController::class, 'update']);
         
         Route::prefix('user')->group(function() {
