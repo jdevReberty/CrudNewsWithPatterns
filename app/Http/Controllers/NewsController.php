@@ -3,173 +3,85 @@
 namespace App\Http\Controllers;
 
 use App\DTO\News\{CreateNewsDTO, UpdateNewsDTO};
+use App\Models\News;
 use App\Services\NewsServices;
 use App\Services\RequestCurrentUriServices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
 {
     public function __construct(
         protected NewsServices $service,
-        protected RequestCurrentUriServices $uriServices
+        protected RequestCurrentUriServices $uriServices,
     ){}
 
     public function index(Request $request) {
         $news = $this->service->paginate(
             page: $request->get('page', 1),
-            totalPerPage: $request->get('per_page', 15),
+            totalPerPage: $request->get('per_page', 3),
             filter: $request->filter
         );
-        // dd($news);
-
-        if($this->uriServices->isApiRequest($request)) {
-            // dd($news);
-            return response()->json([
-                'news' => $news
-            ]);
+        $filterValues = '';
+        $filter = [$request->get('filter', '')];
+        foreach ($filter as $key => $value) {
+            $filterValues == '' ? $filterValues .= $value : $filterValues .= ' '.$value;
         }
-        return view("pages.home", compact('news'));    
+
+        return view("pages.home", compact('news', 'filter', 'filterValues'));    
     }
 
-    public function show(Request $request, string|int $id) {
+    public function show(string|int $id) {
         $response = [];
         $news = $this->service->findOne($id);
         if(!$news) {
-            $response = [
-                'status' => 404,
-                'message' => "news not found"
-            ];
+            return redirect()->back()->withErrors(['errors' => "news not found"]);
         }
-        $response = [
-            'status' => 200,
-            'news' => $news
-        ];
-        if($this->uriServices->isApiRequest($request)) {
-            return response()->json($response);
-        }
-
-        if($response['status'] != 200) {
-            return redirect()->back()->withErrors($response);
-        }
-        return view('edit', compact('news'));   
+        return view('pages.news.show', compact('news'));   
     }
 
-    public function create(Request $request) {
-        $user = auth()->user();
-
-        if($this->uriServices->isApiRequest($request)) {
-            return response()->json([
-                'user' => $user
-            ]);
-        }
-        return view("create", compact('user')); 
+    public function create() {
+        return view("pages.news.create"); 
     }
 
     public function store(Request $request) {
-        $response = [];
         try {
-            $news = $this->service->create(
+            $this->service->create(
                 CreateNewsDTO::makeFromRequest($request)
             );
-            $response = [
-                'status' => 200,
-                'message' => "news created with success",
-                'news' => $news
-            ];
+            return redirect()->route('news.index'); 
         } catch (\Exception $e) {
-            $response = [
-                'status' => $e->getCode(),
-                'message' => $e->getMessage()
-            ];
+            return redirect()->back()->withErrors([
+                'errors' => $e->getMessage()
+            ]);
         }
-
-        if($this->uriServices->isApiRequest($request)) {
-            return response()->json($response);
-        }
-
-        if($response['status'] != 200) {
-            return redirect()->back()->withErrors($response);
-        } 
-        return redirect()->route('home'); 
     }
 
     public function edit(Request $request, string|null $id) {
         $news = $this->service->findOne($id);
-        $response = [];
-
         if(!$news) {
-            $response= [
-                'status' => 404,
-                'message' => "news not found"
-            ];
-        } else {
-            $response = [
-                'status' => 200,
-                'news' => $news
-            ];
-        }
-
-        if($this->uriServices->isApiRequest($request)) {
-            return response()->json($response);
-        }
-
-        if($response['status'] != 200) {
-            return redirect()->back()->withErrors($response);
-        }
-        return view("edit", compact('news')); 
+            return redirect()->back()->withErrors(['errors' => "news not found"]);
+        } 
+        return view("pages.news.edit", compact('news')); 
     }
 
     public function update(Request $request) {
-        $response = [];
         try {
-            $news = $this->service->update(
+            $this->service->update(
                 UpdateNewsDTO::makeFromRequest($request)
             );
-            
-            $response = [
-                'status' => 200,
-                'message' => "news updated with success",
-                'news' => $news
-            ];
+            return redirect()->route('news.index');
         } catch (\Exception $e) {
-            $response = [
-                'status' => $e->getCode(),
-                'message' => $e->getMessage()
-            ];
+            return redirect()->back()->withErrors(['errors' => $e->getMessage()]);
         }
-
-        if($this->uriServices->isApiRequest($request)) {
-            return response()->json($response);
-        }
-
-        if($response['status'] != 200) {
-            return redirect()->back()->withErrors($response);
-        }
-        return redirect()->route('home');
     }
 
-    public function delete(Request $request, string $id) {
-        $response = [];
+    public function delete(string $id) {
         try {
             $this->service->delete($id);
-            $response = [
-                'status' => 200,
-                'message' => 'news deleted with success'
-            ];
+            return redirect()->route('news.index');
         } catch (\Exception $e) {
-            $response = [
-                'status' => $e->getCode(),
-                'message' => $e->getMessage()
-            ];
+            return redirect()->back()->withErrors(['errors' => $e->getMessage()]);
         }
-
-        if($this->uriServices->isApiRequest($request)) {
-            return response()->json($response);
-        }
-
-        if($response['status'] != 200) {
-            return redirect()->back()->withErrors($response);
-        }
-        return redirect()->route('home');
     }
 }
