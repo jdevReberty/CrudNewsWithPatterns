@@ -19,6 +19,7 @@
         <!-- CSS -->
         <link href="{{ asset('assets/css/white-dashboard.css?v=1.0.0') }}" rel="stylesheet" />
         <link href="{{ asset('assets/css/theme.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
     </head>
     <body class="white-content {{ $class ?? '' }}">
         @auth()
@@ -34,14 +35,14 @@
                     @include('white_template.layouts.footer')
                 </div>
             </div>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            {{-- <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
-            </form>
+            </form> --}}
         @else
             @include('white_template.layouts.navbars.navbar')
             <div class="wrapper wrapper-full-page">
                 <div class="full-page {{ $contentClass ?? '' }}">
-                    <div class="content mt-0">
+                    <div class="content mt-0 mb-0 pb-5" style="padding-top: 80px !important;">
                         <div class="container">
                             @yield('content')
                         </div>
@@ -207,5 +208,7 @@
             });
         </script>
         @stack('js')
+
+        @yield('local_scripts')
     </body>
 </html>

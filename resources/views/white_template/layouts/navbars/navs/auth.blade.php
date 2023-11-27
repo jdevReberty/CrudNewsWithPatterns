@@ -16,6 +16,7 @@
             <span class="navbar-toggler-bar navbar-kebab"></span>
         </button>
         <div class="collapse navbar-collapse" id="navigation">
+            <p>{{ucwords(Auth::user()->name)}}</p>
             <ul class="navbar-nav ml-auto">
                 <li class="search-bar input-group">
                     <button class="btn btn-link" id="search-button" data-toggle="modal" data-target="#searchModal"><i class="tim-icons icon-zoom-split"></i>
@@ -57,15 +58,15 @@
                     <ul class="dropdown-menu dropdown-navbar">
                         <li class="nav-link">
                             <a href="
-                                {{-- {{ route('profile.edit') }} --}}
-                                " class="nav-item dropdown-item">{{ __('Profile') }}</a>
+                                {{ route('user.edit', ['user' => Auth::user()->id]) }}
+                                " class="nav-item dropdown-item">{{ __('Editar Perfil') }}</a>
                         </li>
-                        <li class="nav-link">
-                            <a href="#" class="nav-item dropdown-item">{{ __('Settings') }}</a>
-                        </li>
+                        {{-- <li class="nav-link">
+                            <a href="#" class="nav-item dropdown-item">{{ __('Configurações') }}</a>
+                        </li> --}}
                         <li class="dropdown-divider"></li>
                         <li class="nav-link">
-                            <a href="{{ route('logout') }}" class="nav-item dropdown-item" onclick="event.preventDefault();  document.getElementById('logout-form').submit();">{{ __('Log out') }}</a>
+                            <a href="{{ route('logout') }}" class="nav-item dropdown-item" >{{ __('Log out') }}</a>
                         </li>
                     </ul>
                 </li>

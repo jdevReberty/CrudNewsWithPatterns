@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent fixed-top">
+<nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent fixed-top mb-0 pb-0">
     <div class="container-fluid">
         <div class="navbar-wrapper">
             <div class="navbar-toggle d-inline">
@@ -17,24 +17,20 @@
         </button>
         <div class="collapse navbar-collapse" id="navigation">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="
                         {{ route('news.index') }}" 
                         class="nav-link text-primary">
                         <i class="tim-icons icon-minimal-left"></i> {{ _('Back to Dashboard') }}
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item ">
-                    <a href="
-                    {{-- {{ route('register') }}"  --}}
-                    class="nav-link">
-                        <i class="tim-icons icon-laptop"></i> {{ _('Register') }}
+                    <a href="{{ route('user.create') }}" class="nav-link">
+                        <i class="tim-icons icon-laptop"></i> {{ _('Cadastre-se') }}
                     </a>
                 </li>
                 <li class="nav-item ">
-                    <a href="
-                    {{-- {{ route('login') }}" --}}
-                     class="nav-link">
+                    <a href="{{ route('login.index') }}"class="nav-link">
                         <i class="tim-icons icon-single-02"></i> {{ _('Login') }}
                     </a>
                 </li>
