@@ -37,6 +37,9 @@ class NewsController extends Controller
         if(!$news) {
             return redirect()->back()->withErrors(['errors' => "news not found"]);
         }
+        if($news->id_user != Auth::user()->id) {
+            return redirect()->back()->withErrors(['errors' => "Fail! You dont access a news to dont created by you"]);
+        } 
         return view('pages.news.show', compact('news'));   
     }
 
@@ -61,6 +64,9 @@ class NewsController extends Controller
         $news = $this->service->findOne($id);
         if(!$news) {
             return redirect()->back()->withErrors(['errors' => "news not found"]);
+        } 
+        if($news->id_user != Auth::user()->id) {
+            return redirect()->back()->withErrors(['errors' => "Fail! You dont access a news to dont created by you"]);
         } 
         return view("pages.news.edit", compact('news')); 
     }
