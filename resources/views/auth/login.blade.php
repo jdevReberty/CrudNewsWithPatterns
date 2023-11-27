@@ -31,15 +31,15 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" href="" class="btn btn-primary btn-lg btn-block mb-3">{{ _('Get Started') }}</button>
+                    <button type="submit" href="" class="btn btn-primary btn-lg btn-block mb-3">{{ _('Entrar') }}</button>
                     <div class="pull-left">
                         <h6>
-                            <a href="colocar rota" class="link footer-link">{{ _('Create Account') }}</a>
+                            <a href="{{route('user.create')}}" class="link footer-link">{{ _('Criar conta') }}</a>
                         </h6>
                     </div>
                     <div class="pull-right">
                         <h6>
-                            <a href="colocar rota" class="link footer-link">{{ _('Forgot password?') }}</a>
+                            <a href="colocar rota" class="link footer-link">{{ _('Resetar Senha') }}</a>
                         </h6>
                     </div>
                 </div>
