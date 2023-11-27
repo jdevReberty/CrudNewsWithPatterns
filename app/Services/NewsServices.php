@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\DTO\News\{CreateNewsDTO, UpdateNewsDTO};
-use App\Repositories\NewsRepositoryInterface;
+use App\Repositories\News\NewsRepositoryInterface;
 use stdClass;
 
 class NewsServices 
