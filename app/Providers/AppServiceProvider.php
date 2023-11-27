@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Repositories\NewsEloquentORM;
-use App\Repositories\NewsRepositoryInterface;
+use App\Repositories\News\{NewsEloquentORM, NewsRepositoryInterface};
+use App\Repositories\User\{UserEloquentORM, UserRepositoryInterface};
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,6 +17,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             NewsRepositoryInterface::class, 
             NewsEloquentORM::class
+        );
+        $this->app->bind(
+            UserRepositoryInterface::class, 
+            UserEloquentORM::class
         );
     }
 
